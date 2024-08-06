@@ -22,5 +22,5 @@ uvicorn main:app --reload
 
 4. Open API docs
 ```zsh
-http://127.0.0.1:8000/v3000/documentation
+http://127.0.0.1:8000/v2000/documentation
 ```

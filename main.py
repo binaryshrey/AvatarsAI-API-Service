@@ -17,7 +17,7 @@ from fastapi import FastAPI, Depends, Security, Request
 from utils.configs import REDIS_URL, FREE_PROMPTS_LIMIT, PROMPTS_LIMIT, DAILY_LIMIT, PRO_CHECK_URI, GEMINI_API
 from utils.utility import get_api_key, get_db, rate_limit_exceeded_handler, get_payload, \
     get_query_prompt, get_query_key, CustomUnAuthException, get_pro_check_headers, \
-    get_trending_news_api_key, get_artist_uri, get_artist_headers, get_image_base_uri
+    get_trending_news_api_key, get_artist_uri, get_artist_headers, get_image_base_uri, check_user_agent
 
 ########################################################################### - Imports - ###########################################################################
 
@@ -33,12 +33,12 @@ logger = logging.getLogger(__file__)
 
 # DNA
 app = FastAPI(
-    title='AvatarsAI APP-v3',
+    title='AvatarsAI APP-v2',
     description='AvatarsAI API',
-    version='0.3.0',
-    docs_url='/v3000/documentation',
-    redoc_url='/v3000/redoc',
-    openapi_url='/v3000/openapi.json'
+    version='0.2.0',
+    docs_url='/v2000/documentation',
+    redoc_url='/v2000/redoc',
+    openapi_url='/v2000/openapi.json'
 )
 
 
@@ -101,6 +101,7 @@ async def check_alive(request: Request):
 
 # query
 @app.post('/v2/query')
+@check_user_agent
 @limiter.limit("9/minute")
 async def avatars_chat_query(request: Request, query: Query, api_key: str = Security(get_api_key), db: Session = Depends(get_db)):
 
@@ -307,6 +308,7 @@ async def avatars_chat_query(request: Request, query: Query, api_key: str = Secu
 
 # all app-categories-and-avatars
 @app.post('/v2/avatars')
+@check_user_agent
 @limiter.limit("50/minute")
 async def get_avatars(request: Request, avatarsList: AvatarsList, api_key: str = Security(get_api_key)):
 
@@ -318,6 +320,7 @@ async def get_avatars(request: Request, avatarsList: AvatarsList, api_key: str =
 
 # user access level
 @app.post('/v2/level')
+@check_user_agent
 @limiter.limit("50/minute")
 async def get_user_access_level(request: Request, userLevel: UserLevel, api_key: str = Security(get_api_key), db: Session = Depends(get_db)):
 
@@ -333,6 +336,7 @@ async def get_user_access_level(request: Request, userLevel: UserLevel, api_key:
 
 # trending news
 @app.post('/v2/trending')
+@check_user_agent
 @limiter.limit("50/minute")
 async def get_trending_news(request: Request, trending: Trending, api_key: str = Security(get_api_key)):
 
