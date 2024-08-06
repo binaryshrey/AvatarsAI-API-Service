@@ -1,0 +1,13 @@
+name: avatarsAI-keep-alive-service
+
+on:
+  schedule:
+    - cron: '*/3 * * * *'
+
+jobs:
+  ping-service:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: curl request to ping avatarsAI api service
+        run: curl -sSf https://avatarsai-api-service.onrender.com/health
