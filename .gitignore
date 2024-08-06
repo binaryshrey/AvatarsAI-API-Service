@@ -1,0 +1,6 @@
+.idea
+__pycache__
+apienv
+.DS_Store
+/db/notefull.db
+.env
