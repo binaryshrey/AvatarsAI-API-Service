@@ -308,7 +308,6 @@ async def avatars_chat_query(request: Request, query: Query, api_key: str = Secu
 
 # all app-categories-and-avatars
 @app.post('/v2/avatars')
-@check_user_agent
 @limiter.limit("50/minute")
 async def get_avatars(request: Request, avatarsList: AvatarsList, api_key: str = Security(get_api_key)):
 
@@ -320,7 +319,6 @@ async def get_avatars(request: Request, avatarsList: AvatarsList, api_key: str =
 
 # user access level
 @app.post('/v2/level')
-@check_user_agent
 @limiter.limit("50/minute")
 async def get_user_access_level(request: Request, userLevel: UserLevel, api_key: str = Security(get_api_key), db: Session = Depends(get_db)):
 
@@ -336,7 +334,6 @@ async def get_user_access_level(request: Request, userLevel: UserLevel, api_key:
 
 # trending news
 @app.post('/v2/trending')
-@check_user_agent
 @limiter.limit("50/minute")
 async def get_trending_news(request: Request, trending: Trending, api_key: str = Security(get_api_key)):
 
