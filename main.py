@@ -161,8 +161,8 @@ async def avatars_chat_query(request: Request, query: Query, api_key: str = Secu
         logger.warning(f"Failed to get subscription status for user : {query.user_id} - {str(e)}")
         is_user_pro_member = False
 
-    # if query.user_email == 'playconsole.shreyansh@gmail.com':
-    #     is_user_pro_member = True
+    if query.user_email == 'playconsole.shreyansh@gmail.com':
+        is_user_pro_member = True
 
 
     # create new record if no user
