@@ -101,7 +101,7 @@ async def check_alive(request: Request):
 
 # query
 @app.post('/v2/query')
-# @check_user_agent
+@check_user_agent
 @limiter.limit("9/minute")
 async def avatars_chat_query(request: Request, query: Query, api_key: str = Security(get_api_key), db: Session = Depends(get_db)):
 
