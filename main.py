@@ -101,7 +101,7 @@ async def check_alive(request: Request):
 
 # query
 @app.post('/v2/query')
-@check_user_agent
+# @check_user_agent
 @limiter.limit("9/minute")
 async def avatars_chat_query(request: Request, query: Query, api_key: str = Security(get_api_key), db: Session = Depends(get_db)):
 
@@ -211,7 +211,9 @@ async def avatars_chat_query(request: Request, query: Query, api_key: str = Secu
                     db_user.access_count = db_user.access_count + 1
                     db.add(db_user)
                     db.commit()
+                    logger.warning(f"Artist - response: {artist_images}")
                     return {'message': artist_images, 'access_count': 1 if not db_user else db_user.access_count, 'success': True}
+                logger.warning(f"Artist - response: {artist_images}")
                 return {'message': artist_images, 'access_count': 1 if not db_user else db_user.access_count, 'success': True}
 
 
@@ -247,9 +249,12 @@ async def avatars_chat_query(request: Request, query: Query, api_key: str = Secu
                         db_user.access_count = db_user.access_count + 1
                         db.add(db_user)
                         db.commit()
+                        logger.warning(f"LIVE - response: {res.text}")
                         return {'message': res.text, 'access_count': 1 if not db_user else db_user.access_count, 'success': True}
+                    logger.warning(f"LIVE - response: {res.text}")
                     return {'message': res.text, 'access_count': 1 if not db_user else db_user.access_count, 'success': True}
                 else:
+                    logger.warning(f"LIVE - response: {res}")
                     return {'message': "AI is experiencing high server load, Please try again in 30 mins!", 'access_count': -1, 'success': False}
 
 
