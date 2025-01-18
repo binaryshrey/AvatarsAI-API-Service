@@ -57,6 +57,7 @@ models.Base.metadata.create_all(bind=engine)
 @app.on_event("startup")
 async def startup_event():
     # connect to Redis on startup
+    print(REDIS_URL)
     app.state.redis = await aioredis.create_redis_pool(f"{REDIS_URL}")
     logger.info("Connected to Redis")
 
